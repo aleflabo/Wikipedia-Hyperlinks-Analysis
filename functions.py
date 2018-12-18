@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
 import pandas as pd
 import networkx as nx
 import numpy as np
@@ -12,11 +9,9 @@ from tqdm import tqdm
 import json
 
 
-# In[2]:
-
 
 # CREATION of the dictionary containing all the categories. The info are taken from a file .txt
-def category_creation():
+def category_creation(V):
     
     o = open('wiki-topcats-categories.txt', 'r')
     categories = {}
@@ -27,9 +22,10 @@ def category_creation():
         l[0] = l[0].replace('Category:', '').replace(';','')
         if len(l[1:]) >= 3500:
             categories[l[0]] = set(list(map(int, l[1:]))).intersection(set(V))
-            categories_not_filtered[l[0]] =  set(list(map(int, l[1:])))
             
-    return(categories, categories_not_filtered)
+    return(categories)
+
+
 
 # CREATION of the dictionary containing all the names of the articles. The info are taken from a file .txt
 def name_creation():  
@@ -43,8 +39,6 @@ def name_creation():
         
     return names
 
-
-# In[3]:
 
 
 #CLASS used to run the BFS algorith starting from an initial category
@@ -82,14 +76,11 @@ class BFS:
                 self.visited[i] = [0]
 
 
-# In[4]:
-
-
+                
 # CALCULATION of the median of the shortest path between an input category and the other categories.
-def median_calculation(categories, categories_not_filtered,input_category, data):
+def median_calculation(categories, input_category, data):
     #categories: dictionary wich keys are the name of the categories and the values are the list of articles 
                   #(only the ones present in a dataframe)
-    #categories_not_filtered:  dictionary wich keys are the name of the categories and the values are the list of articles
     #input_category: name of the initial category 
     #data: dict of nodes with their shortest paths calculated from the input category
     
@@ -98,26 +89,25 @@ def median_calculation(categories, categories_not_filtered,input_category, data)
         if category != input_category:
             shortest_path={}
             sh=[]
-            if len(set(categories_not_filtered[category]).intersection(set(list(map(int,data.keys())))))> 0:
-                for node in set(categories_not_filtered[category]).intersection(set(list(map(int,data.keys())))):
+            if len(set(categories[category]).intersection(set(list(map(int,data.keys())))))> 0:
+                for node in set(categories[category]).intersection(set(list(map(int,data.keys())))):
                     if len(data[str(node)]) > 0:
                         sh += (list(data[str(node)]))
-                shortest_path[0] = sh
-                shortest_path[1] = (len(categories[category])*len(categories[input_category]) - len(shortest_path))
+                shortest_path[0] = sorted(sh)
+                shortest_path[1] = (len(categories[category])*len(categories[input_category]) - len(shortest_path[0]))
                 l = len(shortest_path[0]) + shortest_path[1]
-                if shortest_path[1] >= int(l/2):
+                if shortest_path[1] >= int(l/2)+1:
                     median[category] = 10000
+                elif l%2 == 0:
+                    median[category] = np.mean([shortest_path[0][int(l/2)], shortest_path[0][int(l/2 +1)]])
                 else:
-                    median[category] = 1
-                #median[category] = np.median(shortest_path)
+                    median[category] = shortest_path[0][int(l/2) +1]
             else:
                 median[category] = 100**100
     median[input_category] = -1
     
     return median
 
-
-# In[5]:
 
 
 #CALCULATION of the ranking of all the nodes in the graph DG.  
