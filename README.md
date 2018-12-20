@@ -8,6 +8,7 @@ For this purpose we use the Wikipedia graph released by the SNAP group.
 ## Getting the data
 We retrieved the data from the following links:
 * [Wikicat hyperlink graph](https://drive.google.com/file/d/1ghPJ4g6XMCUDFQ2JPqAVveLyytG8gBfL/view): a reduced version where each row represents an edge.
+
 From [here](https://snap.stanford.edu/data/wiki-topcats.html):
 * `wiki-topcats-categories.txt.gz` 
 * `wiki-topcats-page-names.txt.gz` 
