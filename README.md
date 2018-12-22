@@ -14,7 +14,7 @@ From [here](https://snap.stanford.edu/data/wiki-topcats.html):
 * `wiki-topcats-page-names.txt.gz` 
 
 ## Jupyter Notebook descriptions
-*  	homework_5.ipynb: the file contains the entire analysis of the Wikipedia Hyperlink graph.
+*  	homework_5.ipynb: the file contains the entire analysis of the Wikipedia Hyperlink graph. This is the [NbViewer link](http://nbviewer.jupyter.org/github/aleflabo/ADM2018-HW5_group20/blob/master/homework_5.ipynb) of our work.
 
 ## Script descriptions
 * 	functions.py: external file with definitions of functions used in the main notebook.
