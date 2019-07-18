@@ -1,5 +1,5 @@
 # Wikipedia Hyperlinks Analysis
-The goal of this assignment is to perform an analysis of the Wikipedia Hyperlink graph and, in particular, to rank the articles within the categories according to some criteria.
+The goal of this project is to perform an analysis of the Wikipedia Hyperlink graph and, in particular, to rank the articles within the categories according to some criteria and using NetworkX.
 
 For this purpose we use the Wikipedia graph released by the SNAP group.
 
